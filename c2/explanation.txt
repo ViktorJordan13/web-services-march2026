@@ -1,0 +1,77 @@
+client - pobaruva resurs na internet od serverot
+server - go opsluzuva toj klient
+
+// HTTP/HTTPS
+
+REST(Representational State Transfer) - arhitektonski principi i granici
+sto ni davaat standardiziran nacin na dizajniranje na apliacii na internetot
+
+GET
+http://google.com/fetchResources
+
+POST
+http://google.com/addResources
+...
+
+GET + POST
+http://google.com/users - i mozeme da ja vidime listata na users, i mozeme da dodavame/izmenuvame postoecki useri
+
+GRAPHQL
+// Pokraj obicnata ruta (primer google.com) imame i dodatni queries sto ke treba da gi pisuvame vo zavisnost od toa sto sakame da go napravime
+
+// Design patterns (Semi na dizajn) - sledat nekoi ogranicuvanja, i na koj nacin ke se organizira i koristi kodot
+Vidovi semi na dizajn:
+
+    1. Singleton Patterns:
+        - Factory Method Pattern - ke koristite glavno factory methods (OOP)
+        - Abstract factory pattern - ke koristite glavno metodi od abstraktni klasi (OOP)
+        Primer: Abstraktna klasa VEHICLE(vozilo) sto ke ni sluzi kako osnova
+        od taa abstraktna klasa sto ni sluzi kako osnova ke si napravime drugi podklasi kako sto se Kola, Brod, Avion i taka natamu.
+
+    2. Structural Patterns:
+        - Decorator Pattern - Koga ke napravite object(class), na toj objekt treba dinamicno da mu se zadavaat odgovornosti i specifikacii
+
+    3. Behavioral Patterns:
+        - Observer Pattern - definira one-to-many zavisnosti megu objekti, odnosno toa vi znaci stom eden objekt se promeni, 
+        site drugi objekti zavisni od nego se izvesteni za toa i se prilagoduvaat avtomatski
+
+    4. Arhitectural Patterns:
+        - MVC (Model - View - Controller) - separate application into three interconnected components
+
+    5. Concurency Patterns:
+        - Mutex Patterns - ni ovozmozuva ekskluziven pristap do nekoj resurs (samo odredeni korisnici mozat da koristat
+        na odreden nacin nekoj resurs)
+
+### API (Application Programming Interface) - rabotata na API e da razmenuva podatoci pomegu aplikacii, sistemi i uredi
+API vi e kako dogovor kade sto e definirano kakva interakcija ke imaat softverskite komponenti pomegu sebe.
+Loosely based real life primer:
+Vo Restoran:
+Kujnata - backend
+Kelnerite sto vi ja nosat hranata i gi vrakaat nazad ciniite - API (VO ovoj slucaj dogovorot e vie im naracuvate hrana, tie ja nosat narackata
+vo kujnata, stom e gotova hranata vi ja nosat vas, i stom zavrsite so jadenje, gi nosat ciniite nazad vo kujnata, ako poracate nesto druga vi go
+nosat pak na masata - toa e nivniot dokovor)
+Hranata sto ja dobivate na masata kade sto sedite - Frontendot 
+
+### RESTFULL API (koristi HTTP/HTTPS protokol i gi sledi principite na REST) - ovozmozuva komunikacija pomegu softverskite komponenti
+
+### Web servisi - komunikacija  na klient/server preku internetot (HTTP/HTTPS)
+Web servisite vi se specificna implementacija na API koja ni ovozmozuva komunikacija preku internet ili mreza
+
+Primer za web servis: GET, POST, PUT, PATCH i DELETE metodite, avtentikacija i avtorizacija, enkriptiranje passwords itn itn...
+
+// REST koristi client-server arhitektura
+
+    Statelesness - sekoj HTTP request treba vo sebe da gi sodrzi site informacii potrebni za komunikacijata client-server
+    da moze da go razbere i procesira istiot request
+    Vo prevod, serverot ne moze da racuna na predhodnite request, ne gi zacuvuva predhodnite requesti.
+    Sekoj request e nezavisen i samostoen(independent)
+
+    Caching - toa vi e sekoj proces na zacuvuvanje i odnovo koristenje na predhodno koristena ili izracunata
+    vrednost se so cel da se podobri efikasnosta i izvedbata na eden sistem.
+
+Summary: I statlesness i caching vi se glavni koncepti za web development.
+
+Statelesness ima pogolema scalabilnost i tolerancija za greski.
+
+Caching po default e po efikasen, meguta podatocite sto se zacuvani (cached) mozat da zastarat i so toa da
+napravat problem, ili uste poloso, da bidat zloupotrebeni i za toa za caching treba poveke vnimanie
