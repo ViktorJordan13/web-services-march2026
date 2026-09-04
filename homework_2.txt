@@ -1,0 +1,3 @@
+1. Definirajte 5 razlicni semi na REST resursi, podatocni modeli (vo json format)
+- fajlovi vo koi bi se cuvale users.json, books.json, cities.json, products.json, lakes.json...po izbor i zelba
+2. Izrabotete REST API CRUD za eden od tie modeli (koristete readData i writeData od ovoj cas)
