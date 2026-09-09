@@ -1,5 +1,5 @@
 const { readData, writeData } = require("../files");
-const DATA_SOURCE = `${__dirname}/../../cars;`
+const DATA_SOURCE = `${__dirname}/../../cars`
 // __dirname vo mojov slucaj vi e D:\SEMOS\Generacija 2026\WebServisi septemvri 2026\web-services-march2026\c3\pkg\cars
 
 // CRUD

@@ -8,3 +8,29 @@
 
 const express = require("express");
 const api = express();
+
+api.use(express.json());
+
+const {
+    getAll,
+    getById,
+    create,
+    update,
+    remove
+} = require("./handlers/cars");
+
+//GET
+api.get("/cars", getAll);
+api.get("/cars/:id", getById);
+//POST
+api.post("/cars", create);
+//PUT
+// za ovaa logika na ovoj cas nema da ni treba PUT ruta, bidejki logikata ni e poveke nameneta za PATCH
+//PATCH
+api.patch("/cars/:id", update);
+//DELETE
+api.delete("/cars/:id", remove);
+
+api.listen(10000, (err) => {
+    err ? console.error(err) : console.log("Server started at port 10000!");
+});

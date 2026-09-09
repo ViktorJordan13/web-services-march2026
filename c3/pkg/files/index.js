@@ -15,7 +15,7 @@ const readData = (source) => {
 const writeData = (data, destination) => {
     return new Promise((success, fail) => {
         const out = JSON.stringify(data);
-        fs.writeData(`${destination}.json`, out, (err) => {
+        fs.writeFile(`${destination}.json`, out, (err) => {
             if(err) return fail(err);
             return success();
         });
