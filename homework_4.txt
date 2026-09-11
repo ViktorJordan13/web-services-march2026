@@ -1,0 +1,7 @@
+1. Od homework_3 domasnata zamenete ja databazata od json fajlot so vasite Mongo clusteri
+
+2. Modelite neka vi imaat minimum 5 polinja
+
+3. Napravete handleri (Minimum 2 GET, 1 POST, 1 PATCH i 1 DELETE) za tie funkcii i povikajte gi na ruti vo index.js
+
+4. Istestirajte gi tie ruti vo POSTMAN i spremete se da demonstrirate nareden cas
