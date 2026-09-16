@@ -45,7 +45,7 @@ const getByEmail = async(email) => {
 };
 
 const setNewPassword = async(id, new_password) => {
-    return await Account.update({ _id: id }, { password: new_password} );
+    return await Account.updateOne({ _id: id }, { password: new_password} );
 }
 
 module.exports = {

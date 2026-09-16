@@ -4,7 +4,20 @@ const { expressjwt: jwt } = require("express-jwt");
 const config = require ("./pkg/config");
 require("./pkg/db");
 
-const { login, register } = require("./handlers/auth");
+const { 
+    login,
+    register,
+    refreshToken,
+    resetPassword
+} = require("./handlers/auth");
+
+const {
+    getAll,
+    getOne,
+    create,
+    update,
+    remove
+} = require("./handlers/blogs");
 
 const api = express();
 
@@ -17,13 +30,30 @@ api.use(
     }).unless({
         path: [
             "api/v1/auth/login",
-            "api/v1/auth/register"
+            "api/v1/auth/register",
+            //"/api/v1/auth/refreshToken",
+            //"/api/v1/auth/resetPassword"
         ],
     })
 );
 
 api.post("/api/v1/auth/login", login);
 api.post("/api/v1/auth/register", register);
+api.post("/api/v1/auth/refreshToken", refreshToken);
+api.post("/api/v1/auth/resetPassword", resetPassword);
+
+api.get("/api/v1/blog", getAll),
+api.get("/api/v1/blog/:id", getOne);
+api.post("/api/v1/blog", create),
+api.put("/api/v1/blog/:id", update),
+api.delete("/api/v1/blog/:id", remove);
+
+//Unathorized access checker and logging
+api.use(function(err, req, res, next){
+    if(err.name = "UnauthorizedAccess"){
+        res.status(401).send("Invalid token!");
+    }
+});
 
 api.listen(config.getSection("development").port, (err) => {
     err
