@@ -1,0 +1,111 @@
+const fs = require("fs");
+
+const makeId = require("../pkg/strings");
+
+// 1byte = 8 bit
+// 1KB = 1024 bytes
+// 1MB = 1024 KB
+// 1GB = 1024 MB
+// 1TB = 1024 GB
+
+const MAX_FILESIZE = 1048576; // 1024 * 1024 = 1 MB
+
+const ALLOWED_FILETYPES = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "image/gif",
+    "image/pjpeg",
+];
+
+const upload = (req, res) => {
+    // req.files -> contains files
+    if(MAX_FILESIZE < req.files.document.size){
+        return res.status(400).send("File exceeds max file size");
+    };
+    if(!ALLOWED_FILETYPES.includes(req.files.document.mimetype)){
+        return res.status(400).send("File type is not allowed!");
+    }
+
+    const userDir = `user_${req.auth.id}`; // za slikite da se uploadiraat vnatre vo folderot
+    const userDirPath = `${__dirname}/../uploads/${userDir}`; // patekata do toj folder na korisnikot
+
+    if(!fs.existsSync(userDirPath)){
+        //dokolku ne postio toj folder na korisnikot
+        fs.mkdirSync(userDirPath); // zapri se drugo (sync) i kreiraj go
+    };
+
+    const fileName = `${makeId(10)}_${req.files.document.name}`;
+    const filePath = `${userDirPath}/${fileName}`;
+
+    req.files.document.mv(filePath, (err) => {
+        if(err){
+            return res.status(500).send("Internal Server Error");
+        }
+        return res.status(200).send({file_name: fileName});
+    });
+};
+
+const download = async(req, res) => {
+    const userDir = `user_${req.auth.id}`;
+    const userDirPath = `${__dirname}/../uploads/${userDir}`;
+
+    const filePath = `${userDirPath}/${req.params.filename}`;
+
+    if(!fs.existsSync(filePath)){
+        return res.status(404).send("File not found");
+    };
+    res.download(filePath);
+};
+
+const listFiles = async(req, res) => {
+    // od koj directorium(folder) sakam da gi procitam
+    // Ako folderot ima fajlovi izlistaj gi
+    // dali userDir postoi
+    // dali userDirPath postoi -> dokolku ne, vo toj slucaj korisnikot momentalno nema uploads
+
+    const userDir = `user_${req.auth.id}`;
+    const userDirPath = `${__dirname}/../uploads/${userDir}`;
+
+    if(!fs.existsSync(userDirPath)){
+        return res.status(400).send("You don't have any uploads yet!");
+    };
+
+    const files = fs.readdirSync(userDirPath);
+    return res.status(200).send(files);
+};
+
+const removeFile = async (req, res) => {
+
+    const userDir = `user_${req.auth.id}`;
+    const userDirPath = `${__dirname}/../uploads/${userDir}`;
+    const fileName = req.params.filename;
+
+    if(!fs.existsSync(`${userDirPath}/${fileName}`)){
+        return res.status(404).send("File is already deleted!");
+    };
+
+    const filesInDir = fs.readdirSync(userDirPath);
+
+    try{
+
+        fs.unlinkSync(`${userDirPath}/${fileName}`);
+        console.log("File has been succesfully deleted!");
+
+    }catch(err){
+        console.error("Error deleting file", err);
+    };
+
+    if(filesInDir.length === 1){
+        fs.rmdirSync(userDirPath);
+    };
+
+    res.status(200).send({ msg: "Deleted a file", deletedFile: fileName});
+};
+
+module.exports = {
+    upload,
+    download,
+    listFiles,
+    removeFile
+};
