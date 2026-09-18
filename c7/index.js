@@ -62,11 +62,11 @@ api.get("/api/v1/storage", listFiles);
 api.delete("/api/v1/storage/:filename", removeFile);
 
 //Unathorized access checker and logging
-api.use(function(err, req, res, next){
-    if(err.name = "UnauthorizedAccess"){
-        res.status(401).send("Invalid token!");
-    }
-});
+// api.use(function(err, req, res, next){
+//     if(err.name = "UnauthorizedAccess"){
+//         res.status(401).send("Invalid token!");
+//     }
+// });
 
 api.listen(config.getSection("development").port, (err) => {
     err

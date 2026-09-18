@@ -23,7 +23,7 @@ const upload = (req, res) => {
     if(MAX_FILESIZE < req.files.document.size){
         return res.status(400).send("File exceeds max file size");
     };
-    if(!ALLOWED_FILETYPES.includes(req.files.document.mimetype)){
+    if(!ALLOWED_FILETYPES.includes(req.files.document.mimetype)){ //mimetype vi e tipot (jpg, jpeg, gif, png...)
         return res.status(400).send("File type is not allowed!");
     }
 
